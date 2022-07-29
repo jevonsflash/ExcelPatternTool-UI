@@ -19,7 +19,7 @@ namespace ExcelPatternTool.Helper
     public class DocHelper
     {
         private static string _fileName = "未命名Excel";
-        private static string _excelFilesXlsxXls = "Excel 2007文件|*.xlsx|Excel 99-03文件|*.xls";
+        private static string _excelFilesXlsxXls = "Excel 2007文件|*.xlsx|Excel 97-2003文件|*.xls";
 
         public static void SaveTo<T>(IList<T> src, ExportOption exportOption) where T : IExcelEntity
         {

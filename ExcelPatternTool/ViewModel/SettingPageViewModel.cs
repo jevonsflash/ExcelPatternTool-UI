@@ -21,6 +21,7 @@ using System.Windows;
 using NJsonSchema.Generation;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using ExcelPatternTool.Core.EntityProxy;
 
 namespace ExcelPatternTool.ViewModel
 {
@@ -144,7 +145,10 @@ namespace ExcelPatternTool.ViewModel
             LocalDataHelper.SaveObjectLocal(SettingInfo);
             SaveDocument(this.Document, false);
 
-            Ioc.Default.GetRequiredService<Validator>().ValidatorInfos=null;
+            Ioc.Default.GetRequiredService<Validator>().PatternItems=null;
+
+            EntityProxyContainer.Current.Init();
+
             //HasChanged = false;
 
 

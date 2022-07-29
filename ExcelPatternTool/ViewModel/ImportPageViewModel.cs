@@ -38,7 +38,7 @@ namespace ExcelPatternTool.ViewModel
             this.ImportCommand = new RelayCommand(ImportAction, () => true);
             this.ValidDataCommand = new RelayCommand(GetDataAction, CanValidate);
             this.SubmitCommand = new RelayCommand(SubmitAction, CanSubmit);
-            this.Employees = new ObservableCollection<object>();
+            this.Entities = new ObservableCollection<object>();
             this.ProcessResultList = new ObservableCollection<ProcessResultDto>();
             this.ProcessResultList.CollectionChanged += ProcessResultList_CollectionChanged;
             this.PropertyChanged += ImportPageViewModel_PropertyChanged;
@@ -50,7 +50,7 @@ namespace ExcelPatternTool.ViewModel
             {
                 SubmitCommand.NotifyCanExecuteChanged();
             }
-            else if (e.PropertyName == nameof(this.Employees))
+            else if (e.PropertyName == nameof(this.Entities))
             {
                 SubmitCommand.NotifyCanExecuteChanged();
                 ValidDataCommand.NotifyCanExecuteChanged();
@@ -68,7 +68,7 @@ namespace ExcelPatternTool.ViewModel
             var task = InvokeHelper.InvokeOnUi<IEnumerable<object>>(null, () =>
             {
 
-                foreach (var employee in Employees)
+                foreach (var employee in Entities)
                 {
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
@@ -78,14 +78,14 @@ namespace ExcelPatternTool.ViewModel
                 }
 
 
-                return Employees;
+                return Entities;
 
 
 
             }, async (t) =>
             {
 
-                this.Employees.Clear();
+                this.Entities.Clear();
                 this.OnFinished?.Invoke(this, EventArgs.Empty);
                 MessageBox.Show("已完成导入");
 
@@ -95,7 +95,7 @@ namespace ExcelPatternTool.ViewModel
         private void GetDataAction()
         {
             this.ProcessResultList.Clear();
-            foreach (var item in this.Employees)
+            foreach (var item in this.Entities)
             {
 
                 var row = (item as IExcelEntity).RowNumber + 1;
@@ -133,7 +133,7 @@ namespace ExcelPatternTool.ViewModel
         private void ImportAction()
         {
 
-            this.Employees.Clear();
+            this.Entities.Clear();
             var task = InvokeHelper.InvokeOnUi<dynamic>(null, () =>
             {
 
@@ -161,7 +161,7 @@ namespace ExcelPatternTool.ViewModel
                 {
 
 
-                    this.Employees = new ObservableCollection<object>(data.Employees);
+                    this.Entities = new ObservableCollection<object>(data.Employees);
                     this.IsValidSuccess = null;
                 }
             });
@@ -182,13 +182,13 @@ namespace ExcelPatternTool.ViewModel
         }
         private ObservableCollection<object> _employees;
 
-        public ObservableCollection<object> Employees
+        public ObservableCollection<object> Entities
         {
             get { return _employees; }
             set
             {
                 _employees = value;
-                OnPropertyChanged(nameof(Employees));
+                OnPropertyChanged(nameof(Entities));
             }
         }
 
@@ -213,7 +213,7 @@ namespace ExcelPatternTool.ViewModel
 
         private bool CanValidate()
         {
-            if (this.Employees.Count > 0)
+            if (this.Entities.Count > 0)
             {
                 return true;
             }

@@ -25,9 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ExcelPatternTool.Core">
-      <HintPath>..\Libs\ExcelPatternTool.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Workshop\ExcelPatternTool.Core\ExcelPatternTool.Core.csproj" />
   </ItemGroup>
 
 </Project>
