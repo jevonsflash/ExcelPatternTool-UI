@@ -31,11 +31,16 @@ using ExcelPatternTool.Core.Excel.Models.Interfaces;
 using ExcelPatternTool.Core.EntityProxy;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using ExcelPatternTool.Core.Patterns;
 
 namespace ExcelPatternTool.ViewModel
 {
     public class CategoryPageViewModel : ObservableObject
     {
+        private ObservableCollection<object> _categoryTypeInfos;
+        private readonly DbContextFactory dbContextFactory;
+        private Pattern _pattern;
+        
         public CategoryPageViewModel(DbContextFactory dbContextFactory)
         {
             this.SubmitCommand = new RelayCommand(() => { }, () => HasValue);
@@ -44,6 +49,8 @@ namespace ExcelPatternTool.ViewModel
             this.PropertyChanged += CategoryPageViewModel_PropertyChanged;
             InitData();
             this.dbContextFactory=dbContextFactory;
+
+
         }
 
 
@@ -130,12 +137,17 @@ namespace ExcelPatternTool.ViewModel
 
         private void ExportToExcelAction()
         {
+            _pattern = LocalDataHelper.ReadObjectLocal<Pattern>();
+
             var odInfos = Entities.ToList();
             if (odInfos.Count > 0)
             {
                 var task = InvokeHelper.InvokeOnUi<IEnumerable<object>>(null, () =>
                 {
-                    DocHelper.SaveTo(EntityProxyContainer.Current.EntityType, this.Entities, new ExportOption(1, 1) { SheetName = "Sheet1", GenHeaderRow = true });
+                    var op2 = new ExportOption(EntityProxyContainer.Current.EntityType, _pattern.ExcelExport.SheetNumber, _pattern.ExcelExport.SkipRow);
+                    op2.SheetName=_pattern.ExcelExport.SheetName;
+                    op2.GenHeaderRow=_pattern.ExcelExport.GenHeaderRow;
+                    DocHelper.SaveTo(EntityProxyContainer.Current.EntityType, this.Entities, op2);
                     return this.Entities;
                 }, async (t) =>
                 {
@@ -195,9 +207,7 @@ namespace ExcelPatternTool.ViewModel
         }
 
 
-        private ObservableCollection<object> _categoryTypeInfos;
-        private readonly DbContextFactory dbContextFactory;
-        private readonly IDialogCoordinator dialogCoordinator;
+
 
         public ObservableCollection<object> Entities
         {

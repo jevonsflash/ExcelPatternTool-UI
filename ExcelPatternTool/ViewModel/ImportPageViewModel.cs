@@ -24,6 +24,12 @@ using ExcelPatternTool.Helper;
 using ExcelPatternTool.Core.Excel.Models;
 using ExcelPatternTool.Core.Excel.Models.Interfaces;
 using ExcelPatternTool.Core.EntityProxy;
+using ExcelPatternTool.Core.Patterns;
+using ExcelPatternTool.Common;
+using System.Threading.Tasks;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExcelPatternTool.ViewModel
 {
@@ -31,17 +37,18 @@ namespace ExcelPatternTool.ViewModel
     {
         public event EventHandler OnFinished;
         private Validator validator;
-        public ImportPageViewModel()
+        private Pattern _pattern;
+        public ImportPageViewModel(DbContextFactory dbContextFactory)
         {
             validator = Ioc.Default.GetRequiredService<Validator>();
             validator.SetValidatorProvider(EntityProxyContainer.Current.EntityType, new DefaultValidatorProvider());
-            this.ImportCommand = new RelayCommand(ImportAction, () => true);
             this.ValidDataCommand = new RelayCommand(GetDataAction, CanValidate);
             this.SubmitCommand = new RelayCommand(SubmitAction, CanSubmit);
             this.Entities = new ObservableCollection<object>();
             this.ProcessResultList = new ObservableCollection<ProcessResultDto>();
             this.ProcessResultList.CollectionChanged += ProcessResultList_CollectionChanged;
             this.PropertyChanged += ImportPageViewModel_PropertyChanged;
+            this.dbContextFactory=dbContextFactory;
         }
 
         private void ImportPageViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -130,23 +137,66 @@ namespace ExcelPatternTool.ViewModel
 
 
 
-        private void ImportAction()
+
+        private async void ImportFromSqliteAction()
         {
+            await ImportFromDb("sqlite");
+        }
+
+
+        private async void ImportFromSqlServerAction()
+        {
+            await ImportFromDb("sqlserver");
+        }
+
+        private async void ImportFromMySqlAction()
+        {
+            await ImportFromDb("mysql");
+        }
+
+        private async Task ImportFromDb(string dbtype)
+        {
+            _pattern = LocalDataHelper.ReadObjectLocal<Pattern>();
+
+            this.Entities.Clear();
+            var result = await DialogManager.ShowInputAsync((MetroWindow)App.Current.MainWindow, "从数据库导入", "请填写数据库连接字符串");
+            if (string.IsNullOrEmpty(result))
+            {
+                return;
+            }
+            var task = InvokeHelper.InvokeOnUi<IEnumerable<object>>(null, () =>
+            {
+                using (var dbcontext = dbContextFactory.CreateExcelPatternToolDbContext(result, dbtype))
+                {
+                    var dbset = dbcontext.GetDbSet(EntityProxyContainer.Current.EntityType);
+                    return (dbset as IEnumerable<object>).ToList();
+                }
+
+            }, (t) =>
+            {
+                var data = t;
+                if (data != null)
+                {
+                    this.Entities = new ObservableCollection<object>(data);
+                    this.IsValidSuccess = null;
+                }
+            });
+
+        }
+
+        private void ImportFromExcelAction()
+        {
+            _pattern = LocalDataHelper.ReadObjectLocal<Pattern>();
 
             this.Entities.Clear();
             var task = InvokeHelper.InvokeOnUi<dynamic>(null, () =>
             {
-
-
-
                 var result = DocHelper.ImportFromDelegator((importer) =>
                 {
 
-
-
-                    var op1 = new ImportOption(EntityProxyContainer.Current.EntityType, 0, 2);
+                    var op1 = new ImportOption(EntityProxyContainer.Current.EntityType, _pattern.ExcelImport.SheetNumber, _pattern.ExcelImport.SkipRow);
+                    op1.SheetName=_pattern.ExcelImport.SheetName;
                     var r1 = importer.Process(EntityProxyContainer.Current.EntityType, op1);
-
 
                     return new { Employees = r1 };
 
@@ -194,6 +244,7 @@ namespace ExcelPatternTool.ViewModel
 
 
         private bool? _isValidSuccess;
+        private readonly DbContextFactory dbContextFactory;
 
         public bool? IsValidSuccess
         {
@@ -223,10 +274,16 @@ namespace ExcelPatternTool.ViewModel
             }
         }
 
+        public List<MenuCommand> ImportOptions => new List<MenuCommand>() {
+            new MenuCommand("从Excel导入", ImportFromExcelAction, () => true),
+            new MenuCommand("从SqlServer导入", ImportFromSqlServerAction, () => true),
+            new MenuCommand("从Sqlite导入", ImportFromSqliteAction, () => true),
+            new MenuCommand("从MySql导入", ImportFromMySqlAction, () => true),
+        };
+
 
         public RelayCommand ValidDataCommand { get; set; }
         public RelayCommand SubmitCommand { get; set; }
 
-        public RelayCommand ImportCommand { get; set; }
     }
 }

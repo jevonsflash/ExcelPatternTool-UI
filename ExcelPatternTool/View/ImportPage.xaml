@@ -5,7 +5,7 @@
       DataContext="{Binding Source={StaticResource Locator},Path=ImportPage}"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ExcelPatternTool.View"
-      xmlns:control="clr-namespace:ExcelPatternTool.Control"
+      xmlns:control="clr-namespace:ExcelPatternTool.Control" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="IndexPage">
@@ -23,7 +23,20 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
-                <Button Content="导入Excel文件" Command="{Binding ImportCommand}" Width="120"></Button>
+                <mah:DropDownButton Name="DownButton1"
+                                    Margin="5"                                    
+                                    Width="120"
+                                    Content="导入.."
+                                    DisplayMemberPath="Title"
+                                    ItemsSource="{Binding ImportOptions}"
+                                    Orientation="Horizontal">
+                    <mah:DropDownButton.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource MahApps.Styles.MenuItem}" TargetType="MenuItem">
+                            <Setter Property="Command" Value="{Binding Command}" />
+                        </Style>
+                    </mah:DropDownButton.ItemContainerStyle>
+                </mah:DropDownButton>
+
                 <Button Content="验证" Command="{Binding ValidDataCommand}" Width="120"></Button>
 
             </StackPanel>
