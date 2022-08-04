@@ -7,66 +7,68 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
+                 ShowIconOnTitleBar="True"
                  WindowState="Maximized"
-        Title="EPT with UI" Height="720" Width="1080">
+                 Icon="Assets\logo.ico"
+        Title="Excel Pattern Tool" Height="720" Width="1080">
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button Content="关于" Click="ButtonBase_OnClick"></Button>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
-	<mah:MetroWindow.Resources>
-		<ResourceDictionary>
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
 
-			<!--  This is the template for all menu items. In this sample we use the glyph items.  -->
-			<DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type mah:HamburgerMenuGlyphItem}">
-				<DockPanel Height="48" LastChildFill="True">
-					<ContentControl x:Name="IconPart"
+            <!--  This is the template for all menu items. In this sample we use the glyph items.  -->
+            <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type mah:HamburgerMenuGlyphItem}">
+                <DockPanel Height="48" LastChildFill="True">
+                    <ContentControl x:Name="IconPart"
 					                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}"
 					                Content="{Binding Icon}"
 					                DockPanel.Dock="Left"
 					                Focusable="False"
 					                IsTabStop="False" />
-					<TextBlock x:Name="TextPart"
+                    <TextBlock x:Name="TextPart"
                                VerticalAlignment="Center"
                                FontSize="16"
                                Text="{Binding Label}" />
-				</DockPanel>
-				<DataTemplate.Triggers>
-					<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
-						<Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
-						<Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
-					</DataTrigger>
-				</DataTemplate.Triggers>
-			</DataTemplate>
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+                        <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
 
-			<ObjectDataProvider x:Key="PanePlacementEnumValues"
+            <ObjectDataProvider x:Key="PanePlacementEnumValues"
                                 MethodName="GetValues"
                                 ObjectType="{x:Type mah:SplitViewPanePlacement}">
-				<ObjectDataProvider.MethodParameters>
-					<x:Type TypeName="mah:SplitViewPanePlacement" />
-				</ObjectDataProvider.MethodParameters>
-			</ObjectDataProvider>
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="mah:SplitViewPanePlacement" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
-			<ObjectDataProvider x:Key="DisplayModeEnumValues"
+            <ObjectDataProvider x:Key="DisplayModeEnumValues"
                                 MethodName="GetValues"
                                 ObjectType="{x:Type mah:SplitViewDisplayMode}">
-				<ObjectDataProvider.MethodParameters>
-					<x:Type TypeName="mah:SplitViewDisplayMode" />
-				</ObjectDataProvider.MethodParameters>
-			</ObjectDataProvider>
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="mah:SplitViewDisplayMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
-			<ObjectDataProvider x:Key="VisibilityEnumValues"
+            <ObjectDataProvider x:Key="VisibilityEnumValues"
                                 MethodName="GetValues"
                                 ObjectType="{x:Type Visibility}">
-				<ObjectDataProvider.MethodParameters>
-					<x:Type TypeName="Visibility" />
-				</ObjectDataProvider.MethodParameters>
-			</ObjectDataProvider>
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Visibility" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
-		</ResourceDictionary>
-	</mah:MetroWindow.Resources>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
 
-	<Grid>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -102,8 +104,8 @@
                                                              VerticalAlignment="Center"></iconPacks:PackIconMaterial>
                             </mah:HamburgerMenuIconItem.Icon>
                         </mah:HamburgerMenuIconItem>
-                       
-                        <mah:HamburgerMenuIconItem Label="设置" Tag="../View/SettingPage.xaml">
+
+                        <mah:HamburgerMenuIconItem Label="Pattern配置" Tag="../View/SettingPage.xaml">
                             <mah:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconModern  Margin="12" Kind="Tools"
                                                              Foreground="White"

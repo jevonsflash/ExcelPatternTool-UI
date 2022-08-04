@@ -30,5 +30,12 @@ namespace ExcelPatternTool.View
             var vm = this.DataContext as SettingPageViewModel;
             vm.RaiseSettingChanged();
         }
+
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/MatoApps/ExcelPatternTool");
+
+        }
     }
 }

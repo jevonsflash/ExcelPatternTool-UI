@@ -15,7 +15,7 @@ namespace ExcelPatternTool.View
 
         private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/jevonsflash/RoslynSyntaxTool");
+            System.Diagnostics.Process.Start("https://github.com/MatoApps/ExcelPatternTool-UI");
         }
     }
 }

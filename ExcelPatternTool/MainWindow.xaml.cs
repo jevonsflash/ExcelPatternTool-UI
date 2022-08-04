@@ -82,7 +82,8 @@ namespace ExcelPatternTool
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new Exception("测试！");
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         private void MainFrame_OnNavigated(object sender, NavigationEventArgs e)

@@ -23,8 +23,9 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center"
                     Margin="12,0">
-			<TextBlock HorizontalAlignment="Center" Text="Roslyn Syntax Tool" FontSize="{StaticResource LargeFontSize}"></TextBlock>
-            <TextBlock HorizontalAlignment="Center" Text="1.0" Margin="0,5"></TextBlock>
+            <Image Source="/Assets/logo.ico" Width="64" Height="64"></Image>
+			<TextBlock HorizontalAlignment="Center" Text="Excel Pattern Tool (WPF)" FontSize="{StaticResource LargeFontSize}"></TextBlock>
+            <TextBlock HorizontalAlignment="Center" Text="0.1.1" Margin="0,5"></TextBlock>
         </StackPanel>
         <StackPanel Grid.Row="1" 
                     Margin="12,0">
@@ -36,7 +37,7 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 				<Image Source="/timg.jpg" Height="22" Width="22"></Image>
                 <TextBlock VerticalAlignment="Center">
-                    <Hyperlink Click="Hyperlink_OnClick" >https://github.com/MatoApps/RoslynSyntaxTool</Hyperlink>
+                    <Hyperlink Click="Hyperlink_OnClick" >https://github.com/MatoApps/ExcelPatternTool-UI</Hyperlink>
                 </TextBlock>
             </StackPanel>
         </StackPanel>
