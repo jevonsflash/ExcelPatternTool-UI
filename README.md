@@ -18,7 +18,7 @@ V0.1.1         | 2022-8-4    | 初始版本
 
 ## 安装说明：
 
-1. 下载安装包 https://raw.githubusercontent.com/MatoApps/ExcelPatternTool/master/EPT/ept.zip
+1. 下载安装包 https://raw.githubusercontent.com/MatoApps/ExcelPatternTool-UI/master/EPT/ept.zip
 
 2. 解压并双击 setup.exe 安装
 
