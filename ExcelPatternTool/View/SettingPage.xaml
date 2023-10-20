@@ -18,9 +18,12 @@
 				<StackPanel Margin="0,10">
                     <TextBlock TextWrapping="Wrap">Pattern文件-一个规则描述的json文档，基于此规则实现Excel表格与数据库之间的导入导出，校验等功能。</TextBlock>
                     <TextBlock TextWrapping="Wrap">使用场景有：Excel导入至数据库、Excel转Excel（合并，校验，规范化）、数据库导出至Excel（报表生成）等。</TextBlock>
-                    <TextBlock TextWrapping="Wrap">此工具提供Cli版本，详情请查看<Hyperlink Click="Hyperlink_Click" >https://github.com/MatoApps/ExcelPatternTool</Hyperlink></TextBlock>
+                    <TextBlock TextWrapping="Wrap">此工具提供Cli版本，详情请查看<Hyperlink Click="Hyperlink_Click" >https://github.com/jevonsflash/ExcelPatternTool</Hyperlink></TextBlock>
                 </StackPanel>
-				<Border>
+                <StackPanel Margin="0,10">
+                    <TextBlock TextWrapping="Wrap">配置文件路径:  <Hyperlink Click="Hyperlink_Click2" ><TextBlock x:Name="FileUrlTextBlock" Text=".."></TextBlock></Hyperlink></TextBlock>
+                </StackPanel>
+                <Border>
 					<control:JsonEditor Margin="8" Data="{Binding Document.Data}"  IsEnabled="True" />
 				</Border>
 			</StackPanel>

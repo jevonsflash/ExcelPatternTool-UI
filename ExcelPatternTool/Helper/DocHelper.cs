@@ -20,13 +20,16 @@ namespace ExcelPatternTool.Helper
     {
         private static string _fileName = "未命名Excel";
         private static string _excelFilesXlsxXls = "Excel 2007文件|*.xlsx|Excel 97-2003文件|*.xls";
+        private static readonly string basePath = CommonHelper.AppBasePath;
 
         public static void SaveTo<T>(IList<T> src, ExportOption exportOption) where T : IExcelEntity
         {
 
 
+            string path = Path.Combine(basePath, "Data");
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.InitialDirectory = CommonHelper.DesktopPath;
+            saveFileDialog.InitialDirectory =path;
             saveFileDialog.Filter = _excelFilesXlsxXls;
             saveFileDialog.FileName = _fileName;
             //saveFileDialog.DefaultExt = "xlsx";
@@ -73,10 +76,9 @@ namespace ExcelPatternTool.Helper
 
         public static void SaveTo(Type entityType, IList src, ExportOption exportOption)
         {
-
-
+            string path = Path.Combine(basePath, "Data");
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.InitialDirectory = CommonHelper.DesktopPath;
+            saveFileDialog.InitialDirectory = path;
             saveFileDialog.Filter = _excelFilesXlsxXls;
             saveFileDialog.FileName = _fileName;
             //saveFileDialog.DefaultExt = "xlsx";
@@ -123,8 +125,10 @@ namespace ExcelPatternTool.Helper
 
         public static IList<T> ImportFrom<T>(ImportOption importOption = null) where T : IExcelEntity
         {
+
+            string path = Path.Combine(basePath, "Data");
             var openFileDialog = new OpenFileDialog();
-            //openFileDialog.InitialDirectory = CommonHelper.DesktopPath;
+            openFileDialog.InitialDirectory = path;
             openFileDialog.Filter = _excelFilesXlsxXls;
             openFileDialog.FileName = _fileName;
             openFileDialog.AddExtension = true;
@@ -143,8 +147,10 @@ namespace ExcelPatternTool.Helper
 
         public static IList<IExcelEntity> ImportFrom(ImportOption importOption = null)
         {
+
+            string path = Path.Combine(basePath, "Data");
             var openFileDialog = new OpenFileDialog();
-            //openFileDialog.InitialDirectory = CommonHelper.DesktopPath;
+            openFileDialog.InitialDirectory = path;
             openFileDialog.Filter = _excelFilesXlsxXls;
             openFileDialog.FileName = _fileName;
             openFileDialog.AddExtension = true;
@@ -261,8 +267,10 @@ namespace ExcelPatternTool.Helper
 
         public static dynamic ImportFromDelegator(Func<Importer, dynamic> action)
         {
+
+            string path = Path.Combine(basePath, "Data");
             var openFileDialog = new OpenFileDialog();
-            //openFileDialog.InitialDirectory = CommonHelper.DesktopPath;
+            openFileDialog.InitialDirectory = path;
             openFileDialog.Filter = _excelFilesXlsxXls;
             openFileDialog.FileName = _fileName;
             openFileDialog.AddExtension = true;
